@@ -3,7 +3,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.ArrayList;
-// Try my own ArrayList later!
+//import JavaStructures.util.ArrayList; 
 
 /*
 	This app is derived from a dreamincode chat tutorial. I will

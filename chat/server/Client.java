@@ -27,7 +27,7 @@ public class Client implements Runnable{
 			}
 		}
 		catch( Exception e ){
-			System.out.print( "A connection error has occurred." );
+			System.out.println( "A connection error has occurred." );
 			e.printStackTrace();
 		}
 	}
