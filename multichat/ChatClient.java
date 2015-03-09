@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.awt.*;
+import java.awt.event.*;
 
 /*
 	A tutorial from javaworld for making a multi-threaded
@@ -10,6 +11,7 @@ import java.awt.*;
 
 	Thread stop() -> interrupt()
 	Text show()/hide() -> setVisible( boolean b )
+	Component handleEvent( Event e ) -> processEvent( AWTEvent e )
 */
 
 public class ChatClient extends Frame implements Runnable{
@@ -58,7 +60,25 @@ public class ChatClient extends Frame implements Runnable{
 	}
 
 //	New non-deprecated replacement processEvent
-//	public void processEvent( AWTEvent e ){
+/*	
+	public void processEvent( AWTEvent e ){
+		if( e.getSource() == input && e.getID() == AWTEvent.ACTION_EVENT_MASK ){
+			try{
+				o.writeUTF( ______ );
+				o.flush();
+			}
+			catch( IOException io ){
+				io.printStackTrace();
+				listener.interrupt();
+			}
+			input.setText( "" );
+		}
+		else if( e.getSource() == this && e.getID() == WindowEvent.WINDOW_CLOSING ){
+			if( listener != null ) listener.interrupt();
+			setVisible( false );
+		}
+	}
+*/
 	public boolean handleEvent( Event e ){
 		if( e.target == input && e.id == Event.ACTION_EVENT ){
 			try{
