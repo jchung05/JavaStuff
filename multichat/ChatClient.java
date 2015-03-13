@@ -5,8 +5,8 @@ import java.awt.event.*;
 
 /*
 	A tutorial from javaworld for making a multi-threaded
-	chat application. I won't be making any alterations to
-	this project with my own classes or mods minus updating
+	chat application. I will be making alterations to
+	this project with my own classes or mods including updating
 	deprecated method calls.
 
 	Thread stop() -> interrupt()
@@ -20,7 +20,9 @@ public class ChatClient extends Frame implements Runnable{
 	protected TextArea output;
 	protected TextField input;
 	protected Thread listener;
-
+	protected final static int PORT = 6677;
+	protected final static String HOST = "localhost";
+	
 	public ChatClient( String title, InputStream i, OutputStream o ){
 		super( title );
 		this.i = new DataInputStream( new BufferedInputStream ( i ) );
@@ -36,6 +38,18 @@ public class ChatClient extends Frame implements Runnable{
 		listener.start();
 	}
 
+	public static void main( String args[] ) throws Exception{
+// 		if( args.length != 2 ) throw new RuntimeException( "Syntax: "
+// 			+ "ChatClient <host> <port>" );
+		try{
+			Socket s = new Socket( HOST, PORT );
+			new ChatClient( "Chat User:", s.getInputStream(), s.getOutputStream() );
+		}
+		catch( Exception e ){
+			System.out.println( "A server error occurred. Please try again." );
+		}	
+	}
+	
 	public void run(){
 		try{
 			while( true ){
@@ -60,11 +74,11 @@ public class ChatClient extends Frame implements Runnable{
 	}
 
 //	New non-deprecated replacement processEvent
-/*	
+
 	public void processEvent( AWTEvent e ){
 		if( e.getSource() == input && e.getID() == AWTEvent.ACTION_EVENT_MASK ){
 			try{
-				o.writeUTF( ______ );
+				o.writeUTF( input.getText() );
 				o.flush();
 			}
 			catch( IOException io ){
@@ -75,10 +89,11 @@ public class ChatClient extends Frame implements Runnable{
 		}
 		else if( e.getSource() == this && e.getID() == WindowEvent.WINDOW_CLOSING ){
 			if( listener != null ) listener.interrupt();
-			setVisible( false );
+//			setVisible( false );
+			System.exit(0);
 		}
 	}
-*/
+/*
 	public boolean handleEvent( Event e ){
 		if( e.target == input && e.id == Event.ACTION_EVENT ){
 			try{
@@ -99,11 +114,5 @@ public class ChatClient extends Frame implements Runnable{
 		}
 		return super.handleEvent( e );
 	}
-
-	public static void main( String args[] ) throws Exception{
-		if( args.length != 2 ) throw new RuntimeException( "Syntax: "
-			+ "ChatClient <host> <port>" );
-		Socket s = new Socket( args[0], Integer.parseInt( args[1] ) );
-		new ChatClient( "Chat " + args[0] + ":" + args[1], s.getInputStream(), s.getOutputStream() );
-	}
+*/
 }
